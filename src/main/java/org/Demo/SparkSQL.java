@@ -1,4 +1,4 @@
-package org.SparkDemo;
+package org.Demo;
 
 import org.apache.spark.sql.AnalysisException;
 import org.apache.spark.sql.SparkSession;
@@ -14,7 +14,7 @@ import static org.apache.spark.sql.functions.col;
  * @author dajunnnnnn
  * @Date 2022.11.06
  */
-public class Demo01SparkSQL
+public class SparkSQL
 {
     public static void main( String[] args )
     {

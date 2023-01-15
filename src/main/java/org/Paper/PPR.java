@@ -1,4 +1,4 @@
-package org.example;
+package org.Paper;
 
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.graphx.Edge;

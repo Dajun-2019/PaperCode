@@ -1,4 +1,4 @@
-package org.example;
+package org.Paper;
 
 import org.apache.spark.graphx.PartitionStrategy;
 import org.apache.spark.graphx.VertexRDD;

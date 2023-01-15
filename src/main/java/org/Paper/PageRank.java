@@ -1,4 +1,4 @@
-package org.GraphXDemo;
+package org.Paper;
 
 import com.google.common.collect.Iterables;
 import org.apache.spark.api.java.JavaPairRDD;
@@ -27,9 +27,19 @@ import java.util.regex.Pattern;
  * <pre>
  * bin/run-example JavaPageRank data/mllib/pagerank_data.txt 10
  * </pre>
+ * VM options中输入“-Dspark.master=local”
  */
-public final class JavaPageRank {
+public final class PageRank {
     private static final Pattern SPACES = Pattern.compile("\\s+");
+    private  int  PROCESSOR_NUMS;
+
+
+    public PageRank() {
+    }
+
+    public PageRank(int PROCESSOR_NUMS) {
+        this.PROCESSOR_NUMS = PROCESSOR_NUMS;
+    }
 
     static void showWarning() {
         String warning = "WARN: This is a naive implementation of PageRank " +
@@ -46,15 +56,12 @@ public final class JavaPageRank {
         }
     }
 
-//    static JavaPairRDD<String, Double> preSample(){
-//
-//    }
 
     public static void main(String[] args) throws Exception {
+        // JavaPageRank data/mllib/pagerank_data.txt 10
         if (args.length < 2) {
             System.err.println("Usage: JavaPageRank <file> <number_of_iterations>");
             System.exit(1);
-
         }
 
         showWarning();
@@ -62,7 +69,7 @@ public final class JavaPageRank {
         //build Session ，the name of session is JavaPageRank
         SparkSession spark = SparkSession
                 .builder()
-                .appName("JavaPageRank")
+                .appName("PageRank")
                 .getOrCreate();
 
         // Loads in input file. It should be in format of:
@@ -71,13 +78,15 @@ public final class JavaPageRank {
         //     URL         neighbor URL
         //     ...
         JavaRDD<String> lines = spark.read().textFile(args[0]).javaRDD();
+//        Graph<String,String> newGraph = Graph.fromEdges(lines.rdd());
+
 
         // Loads all URLs from input file and initialize their neighbors.
         JavaPairRDD<String, Iterable<String>> links = lines.mapToPair(s -> {
             String[] parts = SPACES.split(s);
             return new Tuple2<>(parts[0], parts[1]);
         }).distinct().groupByKey().cache();
-        
+
 
         // Loads all URLs with other URL(s) link to from input file and initialize ranks of them to one.
         JavaPairRDD<String, Double> ranks = links.mapValues(rs -> 1.0);
@@ -107,4 +116,33 @@ public final class JavaPageRank {
 
         spark.stop();
     }
+//    public Map<Integer,Integer> preSample(Graph<String,String> graph, int a){
+//        long m = graph.ops().numEdges();
+//        long n = graph.ops().numVertices();
+//        long wp = m/n;
+//
+////        JavaPairRDD<String,String> wt = new JavaPairRDD<>();
+//        Map<Edge<String>,Edge<String>> wt = new HashMap<>();
+//
+////        ClassTag<String> stringTaag = scala.reflect.ClassTag$.MODULE$.apply(String.class);
+//
+//        for (int i = 0; i < PROCESSOR_NUMS; i++) {
+//            Map<Edge<String>,Edge<String>> wa = new HashMap<>();
+////            JavaPairRDD<String,String> waa = new JavaPairRDD<>(graph.edges(),String,String);
+//            for (Edge<String> e: graph.edges().collect()) {
+//                wa.put(e,e);
+//            }
+////            while(!wa.isEmpty()){
+////                for (Iterator iterator: wa) {
+////
+////                }
+////            }
+////            Graph<String, String> rankGraph = graph.outerJoinVertices(graph.ops().outDegrees())
+//        }
+//
+//        return new HashMap<>();
+//    }
+
+
+
 }

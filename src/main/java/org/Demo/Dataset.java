@@ -1,4 +1,4 @@
-package org.SparkDemo;
+package org.Demo;
 
 import java.io.Serializable;
 import java.util.Arrays;
@@ -7,7 +7,7 @@ import java.util.Collections;
 import org.apache.spark.api.java.function.MapFunction;
 import org.apache.spark.sql.*;
 
-public class Demo02Dataset {
+public class Dataset {
     public static class Person implements Serializable{
         private String name;
         private long age;
@@ -41,14 +41,14 @@ public class Demo02Dataset {
 
         // TODO:Encoders are created for Java beans
         Encoder<Person> personEncoder = Encoders.bean(Person.class);
-        Dataset<Person> javaBeanDS = spark.createDataset(Collections.singletonList(person), personEncoder);
+        org.apache.spark.sql.Dataset<Person> javaBeanDS = spark.createDataset(Collections.singletonList(person), personEncoder);
         javaBeanDS.show();
 
 
         // TODO:Encoders for most common types are provided in class Encoders
         Encoder<Long> longEncoder = Encoders.LONG();
-        Dataset<Long> primitiveDS = spark.createDataset(Arrays.asList(1L, 2L, 3L), longEncoder);
-        Dataset<Long> transformedDS = primitiveDS.map(
+        org.apache.spark.sql.Dataset<Long> primitiveDS = spark.createDataset(Arrays.asList(1L, 2L, 3L), longEncoder);
+        org.apache.spark.sql.Dataset<Long> transformedDS = primitiveDS.map(
                 (MapFunction<Long, Long>) value -> value + 1L,
                 longEncoder);
         transformedDS.collect(); // Returns [2, 3, 4]
@@ -56,7 +56,7 @@ public class Demo02Dataset {
 
         // TODO:DataFrames can be converted to a Dataset by providing a class. Mapping based on name
         String path = "people.json";
-        Dataset<Person> peopleDS = spark.read().json(path).as(personEncoder);
+        org.apache.spark.sql.Dataset<Person> peopleDS = spark.read().json(path).as(personEncoder);
         peopleDS.show();
     }
 }

@@ -1,4 +1,4 @@
-package org.GraphXDemo;
+package org.GraphX;
 
 
 import java.io.Serializable;
@@ -8,15 +8,11 @@ import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.graphx.Edge;
-import org.apache.spark.graphx.EdgeContext;
 import org.apache.spark.graphx.EdgeTriplet;
 import org.apache.spark.graphx.Graph;
-import org.apache.spark.graphx.VertexRDD;
 import org.apache.spark.storage.StorageLevel;
 
 //import LinkedData.HITS.VertexProperty;
-import scala.Function1;
-import scala.Tuple10;
 import scala.Tuple2;
 import scala.reflect.ClassTag;
 import scala.reflect.ClassTag$;
